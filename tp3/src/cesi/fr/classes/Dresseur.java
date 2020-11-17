@@ -1,10 +1,18 @@
 package cesi.fr.classes;
 
 public class Dresseur {
+
+    int id;
     String nom;
     String prenom;
 
+    public Dresseur(String nom, String prenom) {
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
     public Dresseur(int id, String nom, String prenom) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
     }
@@ -25,10 +33,15 @@ public class Dresseur {
         this.prenom = prenom;
     }
 
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
     @Override
     public String toString() {
         return "Dresseur{" +
-                "nom='" + nom + '\'' +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 '}';
     }

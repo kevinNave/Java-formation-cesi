@@ -1,19 +1,15 @@
 package cesi.fr.dao;
 
-import cesi.fr.classes.Attaque;
 import cesi.fr.classes.Dresseur;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DresseurDAO implements DAO<Dresseur> {
 
-    final static String SQL_INSERT = "INSERT INTO dresseur (nom, force) values(?, ?)";
-    final static String SQL_SELECT = "SELECT id, nom, force FROM dresseur";
+    final static String SQL_INSERT = "INSERT INTO dresseur (nom, prenom) values(?, ?)";
+    final static String SQL_SELECT = "SELECT id, nom, prenom FROM dresseur";
     final static String SQL_DELETE = "DELETE FROM dresseur WHERE id=?";
     final static String SQL_UPDATE = "UPDATE dresseur SET nom=?, prenom=? WHERE id=?";
 
@@ -38,19 +34,48 @@ public class DresseurDAO implements DAO<Dresseur> {
     }
 
     @Override
-    public void update(Dresseur dresseur) {
-
+    public void update(Dresseur unDresseur) {
+        try (Connection cnx = DBConnection.connect(); PreparedStatement pstmt = cnx.prepareStatement(SQL_UPDATE)) {
+            pstmt.setString(1, unDresseur.getNom());
+            pstmt.setString(2, unDresseur.getPrenom());
+            pstmt.setInt(3, unDresseur.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
     }
 
 
     @Override
-    public void delete(int t) {
-
+    public void delete(int idDresseur) {
+        try (Connection cnx = DBConnection.connect();
+             PreparedStatement pstmt = cnx.prepareStatement(SQL_DELETE)
+        ) {
+            pstmt.setInt(1, idDresseur);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
     }
 
     @Override
-    public Dresseur insert(Dresseur dresseur) {
-        return null;
+    public Dresseur insert(Dresseur unDresseur) {
+        int idGenere = 0;
+        try (Connection cnx = DBConnection.connect();
+             PreparedStatement pstmt = cnx.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            pstmt.setString(1, unDresseur.getNom());
+            pstmt.setString(2, unDresseur.getPrenom());
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                idGenere = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL : " + e.getMessage());
+        }
+        unDresseur.setId(idGenere);
+        return unDresseur;
     }
 
 }

@@ -18,7 +18,7 @@ public class Main {
 
         DresseurDAO ddao = new DresseurDAO();
         Dresseur unDresseur = new Dresseur("Savary", "Clement");
-        ddao.insert(unDresseur);
+        //ddao.insert(unDresseur);
         List<Dresseur> lstD = ddao.getAll();
         System.out.println(lstD);
     }

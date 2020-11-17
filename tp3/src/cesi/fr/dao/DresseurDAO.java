@@ -9,7 +9,7 @@ import java.util.List;
 public class DresseurDAO implements DAO<Dresseur> {
 
     final static String SQL_INSERT = "INSERT INTO dresseur (nom, prenom) values(?, ?)";
-    final static String SQL_SELECT = "SELECT id, nom, prenom FROM dresseur";
+    final static String SQL_SELECT = "SELECT * FROM dresseur";
     final static String SQL_DELETE = "DELETE FROM dresseur WHERE id=?";
     final static String SQL_UPDATE = "UPDATE dresseur SET nom=?, prenom=? WHERE id=?";
 

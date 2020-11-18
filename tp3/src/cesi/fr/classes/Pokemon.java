@@ -11,7 +11,11 @@ public class Pokemon {
         Attaque attaque02;
         Dresseur dresseur;
 
-        public Pokemon(int id, String nom, float poids, float taille, Attaque attaque01, Attaque attaque02, Dresseur dresseur) {
+        public Pokemon() {
+
+        }
+
+        public Pokemon(int id, String nom, float poids, float taille, String design, Attaque attaque01, Attaque attaque02, Dresseur dresseur) {
             this.id = id;
             this.nom = nom;
             this.poids = poids;
@@ -22,7 +26,7 @@ public class Pokemon {
             this.dresseur = dresseur;
         }
 
-        public int getId() {
+    public int getId() {
             return id;
         }
 
